@@ -1,9 +1,21 @@
 package categorycontroller
 
-import "net/http"
+import (
+	"go-web-native/models/categorymodel"
+	"html/template"
+	"net/http"
+)
 
 func Index(w http.ResponseWriter, r *http.Request) {
+	categories := categorymodel.GetAll()
+	data := map[string]any{
+		"categories": categories,
+	}
 
+	temp, err := template.ParseFiles("views/category/index.html")
+	if err != nil {
+		panic(err)
+	}
 }
 
 func Add(w http.ResponseWriter, r *http.Request) {
