@@ -29,7 +29,7 @@ func GetAll() []entities.Product {
 
 	for rows.Next() {
 		var product entities.Product
-		rows.Scan(
+		err := rows.Scan(
 			&product.Id,
 			&product.Name,
 			&product.Category.Name,
