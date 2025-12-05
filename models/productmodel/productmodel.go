@@ -10,7 +10,7 @@ func GetAll() []entities.Product {
 		SELECT 
 			products.id, 
 			products.name, 
-			categories.name as category_name
+			categories.name as category_name,
 			products.stock,
 			products.description,
 			products.created_at,
