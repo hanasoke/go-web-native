@@ -31,26 +31,34 @@
     <div class="container mt-3">
         <div class="row d-flex justify-content-center">
             <div class="col-4">
-                <h2>Detail Product</h2>
+                <h2>Edit Product</h2>
                 <hr>
-                <div class="mb-3">
-                    <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" autocomplete="off" value="{{ .product.Name }}" disabled >
-                </div>
-                <div class="mb-3">
-                    
-                </div>
-                <div class="mb-3">
-                    <label for="stock" class="form-label">Stock</label>
-                    <input type="number" class="form-control" id="stock" name="stock" autocomplete="off" value="{{ .product.Stock }}" disabled >
-                </div>
-                <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea class="form-control" id="description" rows="3" disabled>{{ .product.Description }}</textarea>
-                </div>
-                <div class="float-end">
-                    <a href="/products" class="btn btn-secondary">Back</a>
-                </div>
+
+                <form action="/products/edit" method="POST">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" autocomplete="off">
+                    </div>
+                    <div class="mb-3">
+                        <select class="form-select" name="category_id">
+                            {{ range .categories}}
+                                <option value="{{ .Id }}">{{ .Name }}</option>
+                            {{ end }}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="stock" class="form-label">Stock</label>
+                        <input type="number" class="form-control" id="stock" name="stock" autocomplete="off">
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" rows="3"></textarea>
+                    </div>
+                    <div class="float-end">
+                        <a href="/products" class="btn btn-secondary">Back</a>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
             </div>
         </div>
         
