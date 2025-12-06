@@ -1,10 +1,13 @@
 package productcontroller
 
 import (
+	"go-web-native/entities"
 	"go-web-native/models/categorymodel"
 	"go-web-native/models/productmodel"
 	"html/template"
 	"net/http"
+	"strconv"
+	"time"
 )
 
 func Index(w http.ResponseWriter, r *http.Request) {
@@ -39,6 +42,34 @@ func Add(w http.ResponseWriter, r *http.Request) {
 		}
 
 		temp.Execute(w, data)
+	}
+
+	if r.Method == "POST" {
+		var product entities.Product
+
+		categoryId, err := strconv.Atoi(r.FormValue("category_id"))
+		if err != nil {
+			panic(err)
+		}
+
+		stock, err := strconv.Atoi(r.FormValue("stock"))
+		if err != nil {
+			panic(err)
+		}
+
+		product.Name = r.FormValue("name")
+		product.Category.Id = uint(categoryId)
+		product.Stock = int64(stock)
+		product.Description = r.FormValue("description")
+		product.CreatedAt = time.Now()
+		product.UpdatedAt = time.Now()
+
+		if ok := productmodel.Create(product); !ok {
+			http.Redirect(w, r, r.Header.Get("Referer"), http.StatusTemporaryRedirect)
+			return
+		}
+
+		http.Redirect(w, r, "/products", http.StatusSeeOther)
 	}
 }
 
