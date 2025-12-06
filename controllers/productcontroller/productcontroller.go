@@ -90,7 +90,27 @@ func Add(w http.ResponseWriter, r *http.Request) {
 }
 
 func Edit(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "GET" {
+		temp, err := template.ParseFiles("views/product/edit.html")
+		if err != nil {
+			panic(err)
+		}
 
+		idString := r.URL.Query().Get("id")
+		id, err := strconv.Atoi(idString)
+		if err != nil {
+			panic(err)
+		}
+
+		product := productmodel.Detail(id)
+		categories := categorymodel.GetAll()
+		data := map[string]any{
+			"categories": categories,
+			"product":    product,
+		}
+
+		temp.Execute(w, data)
+	}
 }
 
 func Delete(w http.ResponseWriter, r *http.Request) {
