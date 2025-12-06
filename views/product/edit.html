@@ -35,9 +35,10 @@
                 <hr>
 
                 <form action="/products/edit" method="POST">
+                    <input type="hidden" name="id" value="{{ .product.Id }}">
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" autocomplete="off">
+                        <input type="text" class="form-control" id="name" name="name" autocomplete="off" value="{{ .product.Name }}">
                     </div>
                     <div class="mb-3">
                         <select class="form-select" name="category_id">
@@ -48,11 +49,11 @@
                     </div>
                     <div class="mb-3">
                         <label for="stock" class="form-label">Stock</label>
-                        <input type="number" class="form-control" id="stock" name="stock" autocomplete="off">
+                        <input type="number" class="form-control" id="stock" name="stock" autocomplete="off" value="{{ .product.Stock }}" >
                     </div>
                     <div class="mb-3">
                         <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control" id="description" rows="3"></textarea>
+                        <textarea class="form-control" id="description" rows="3">{{ .product.Description }}</textarea>
                     </div>
                     <div class="float-end">
                         <a href="/products" class="btn btn-secondary">Back</a>

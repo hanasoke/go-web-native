@@ -111,6 +111,39 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 
 		temp.Execute(w, data)
 	}
+
+	if r.Method == "POST" {
+		var product entities.Product
+
+		idString := r.FormValue("id")
+		id, err := strconv.Atoi(idString)
+		if err != nil {
+			panic(err)
+		}
+
+		categoryId, err := strconv.Atoi(r.FormValue("category_id"))
+		if err != nil {
+			panic(err)
+		}
+
+		stock, err := strconv.Atoi(r.FormValue("stock"))
+		if err != nil {
+			panic(err)
+		}
+
+		product.Name = r.FormValue("name")
+		product.Category.Id = uint(categoryId)
+		product.Stock = int64(stock)
+		product.Description = r.FormValue("description")
+		product.UpdatedAt = time.Now()
+
+		if ok := productmodel.Update(id, product); !ok {
+			http.Redirect(w, r, r.Header.Get("Referer"), http.StatusTemporaryRedirect)
+			return
+		}
+
+		http.Redirect(w, r, "/products", http.StatusSeeOther)
+	}
 }
 
 func Delete(w http.ResponseWriter, r *http.Request) {
