@@ -86,7 +86,7 @@ func Detail(id int) entities.Product {
 			products.updated_at
 		FROM products 
 		JOIN categories ON products.category_id = categories.id
-		WHERE product.id = ?
+		WHERE products.id = ?
 	`, id)
 
 	var product entities.Product
